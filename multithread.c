@@ -17,6 +17,9 @@ typedef struct {
     int end; 
 } parameters; 
 
+// Size of the array as a global variable to be accessed by all threads 
+int SIZE = 10; 
+
 // Defining our global arrays for easier data access
 int arr[10] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1}; 
 int sorted_array[10]; 
@@ -45,12 +48,44 @@ void display(int list[], int n)
 // Merge Function 
 void merge(int arr1[], int arr2[])
 {
-    for(int ) 
+    
 }
 
 // Main Function 
 int main()
 {
+
+    /* Things to do 
+
+    1. Take an input from user for array size and array input. 
+    2. Split the array into two halfs and use pthread_function to create to threads to sort them using the sort() function 
+        and the parameters for start and end 
+    3. Use the merge function to merge them back into the sorted array list. 
+
+    */ 
+
+    /* Taking the input from the user */ 
+    printf("\n Enter the size of the array: "); 
+    scanf("%d", &SIZE); 
+
+    int e; 
+    if(SIZE % 2 == 0)
+        e = SIZE / 2; 
+    else
+        e = SIZE/2 + 1; 
+
+    // Parameters for list one ( first half )
+    parameters *list1 = (parameters *) malloc(sizeof(parameters));
+    list1->start = 0;
+    list1->end = e ;
+
+    // Parameters for list one ( first half )
+    parameters *list2 = (parameters *) malloc(sizeof(parameters));
+    list2->start = e ;
+    list2->end = SIZE - 1;
+
+    /* Now create the thread passing it data as a parameter */
+   // Testing the sort function and 
     printf("\nArray before being sorted."); 
     display(arr, 10); 
 
@@ -60,4 +95,6 @@ int main()
     display(arr, 10); 
     
     return(0);
+
+
 }
