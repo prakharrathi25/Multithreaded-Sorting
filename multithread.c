@@ -68,20 +68,26 @@ int main()
     printf("\n Enter the size of the array: "); 
     scanf("%d", &SIZE); 
 
-    int e; 
+    int e; // Check if size of the list is even
     if(SIZE % 2 == 0)
-        e = SIZE / 2; 
+        e = 1;  
     else
-        e = SIZE/2 + 1; 
+        e = 0; 
 
     // Parameters for list one ( first half )
     parameters *list1 = (parameters *) malloc(sizeof(parameters));
     list1->start = 0;
-    list1->end = e ;
+    if(e == 0)
+        list1->end = SIZE/2 - 1 ;
+    else 
+        list1->end = SIZE/2; 
 
-    // Parameters for list one ( first half )
+    // Parameters for list two ( second half )
     parameters *list2 = (parameters *) malloc(sizeof(parameters));
-    list2->start = e ;
+    if(e == 0)
+        list2->start = SIZE/2; 
+    else
+        list2->start = SIZE/2 + 1;  
     list2->end = SIZE - 1;
 
     /* Now create the thread passing it data as a parameter */
