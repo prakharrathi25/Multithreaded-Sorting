@@ -64,13 +64,28 @@ void merging_thread(void *params)
     int start = p->start; 
     int end = p->end; 
 
-    //for(int i = 0 ); 
+    /* Traverse through both the lists simultaenously and compare the numbers */ 
+    int l1 = 0, l2 = SIZE/2; 
+    for(int i = start; i <= end; i++)
+    {
+        if(arr[l1] <= arr[l2] && l1 < 5) // 5 can be replaced with SIZE/2
+        {
+            sorted_array[i] = arr[l1]; 
+            l1++; 
+        }else
+        {
+            sorted_array[i] = arr[l2]; 
+            l2++; 
+        }
+    }
+
+    pthread_exit(NULL); 
 }
 
 // Main Function 
 int main()
 {
-
+    // Displaying the array before 
     printf("\nArray before being sorted."); 
     display(arr, 10); 
 
@@ -98,8 +113,7 @@ int main()
     merge_arr->start = list1->start;
     merge_arr->end = list2->end;
 
-    /* Now create the thread passing it data as a parameter */
-    pthread_t thread_id;
+    /* Now create the thread passing it data as a parameter *
     pthread_t worker_threads[3]; 
 
     /* create the two sorting threads and join them */ 

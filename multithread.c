@@ -113,6 +113,7 @@ int main()
 
     /* Now create the thread passing it data as a parameter */
     pthread_t thread_id; 
+    
 
    // Testing the sort function and 
     printf("\nArray before being sorted."); 
