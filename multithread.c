@@ -4,7 +4,7 @@ Author2: Jaskaran Gujral
 Roll Number: 1810110091
 */ 
 
-//#include<pthread.h> 
+#include<pthread.h> 
 #include<stdio.h> 
 #include<stdlib.h> 
 
@@ -32,8 +32,20 @@ int cmpfunc(const void * a, const void * b) {
 // Sorting Function which uses an in-built sorting function 
 int sort(int list[], int n)
 {
-    qsort(list, n, sizeof(int), cmpfunc);
-    return 0; 
+    int key, j, i; 
+    for(i = 1; i < n; i++)
+    {
+        key = arr[i]; 
+        j = i - 1; 
+
+        while (j >= 0 && arr[j] > key)
+        {
+            arr[j + 1] = arr[j]; 
+            j = j - 1; 
+        }
+        arr[j + 1] = key; 
+        
+    }
 }
 
 // Display Function 
@@ -64,9 +76,18 @@ int main()
 
     */ 
 
-    /* Taking the input from the user */ 
-    printf("\n Enter the size of the array: "); 
-    scanf("%d", &SIZE); 
+    // /* Taking the input of array size from the user */ 
+    // printf("\n Enter the size of the array: "); 
+    // scanf("%d", &SIZE); 
+
+    // /* Taking the array as input from the user */ 
+    // for(int i = 0; i < SIZE; i++)
+    // {
+    //     int n; 
+    //     printf("\nEnter a number: "); 
+    //     scanf("%d", &n); 
+    //     arr[i] = n; 
+    // }
 
     int e; // Check if size of the list is even
     if(SIZE % 2 == 0)
@@ -91,6 +112,8 @@ int main()
     list2->end = SIZE - 1;
 
     /* Now create the thread passing it data as a parameter */
+    pthread_t thread_id; 
+
    // Testing the sort function and 
     printf("\nArray before being sorted."); 
     display(arr, 10); 
