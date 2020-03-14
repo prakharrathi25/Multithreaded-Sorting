@@ -101,7 +101,7 @@ int main()
     /* Creating the parameters for the first half for the first sorting thread */ 
     parameters *list1 = (parameters *) malloc(sizeof(parameters));
     list1->start = 0;
-    list1->end = 4;
+    list1->end = 5;
 
     /* Creating the parameters for the second half for the second sorting thread */ 
     parameters *list2 = (parameters *) malloc(sizeof(parameters));
@@ -124,7 +124,7 @@ int main()
     pthread_join(worker_threads[1], NULL);
     
     /* Create the merging thread which will wait for the first two to end and then join it */ 
-    pthread_create(worker_threads[2], NULL, merging_thread, merge_arr); 
+    pthread_create(&worker_threads[2], NULL, merging_thread, merge_arr); 
     pthread_join(worker_threads[2], NULL); 
 
    // Testing the sort function and merging function 
