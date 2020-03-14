@@ -58,7 +58,7 @@ void display(int list[], int n)
 }
 
 // Merge Function 
-void merging_thread(void *params)
+void *merging_thread(void *params)
 {
     parameters *p = (parameters *)params; 
     int start = p->start; 
