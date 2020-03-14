@@ -113,7 +113,7 @@ int main()
     merge_arr->start = list1->start;
     merge_arr->end = list2->end;
 
-    /* Now create the thread passing it data as a parameter *
+    /* Now create the thread passing it data as a parameter */
     pthread_t worker_threads[3]; 
 
     /* create the two sorting threads and join them */ 
