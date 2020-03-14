@@ -8,6 +8,12 @@ to set up the data is to create a global array. Each sorting thread will work on
 array. A second global array of the same size as the unsorted integer array will also be
 established. The merging thread will then merge the two sublists into this second array. 
 
+## File Descriptions
+1. **fixed_size.c** : This file is working completely and performs sorting as well as merging for an array of fixed size which has been pre-defined by the authors of this code. 
+2. **multithread.c**: This file is an extention to `fixed_size.c` as it allows the user to decide the following:- 
+    * Size of the array
+    * Data inside the array
+    * Order of sorting
 
 ## Walk through the code
 
