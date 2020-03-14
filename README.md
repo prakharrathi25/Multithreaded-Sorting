@@ -14,6 +14,8 @@ established. The merging thread will then merge the two sublists into this secon
     * Size of the array
     * Data inside the array
     * Order of sorting
+3. **Assignment-2.pdf**: Contains a detailed description of the project and provides a starting point in writing the code and creating the project. 
+4. **pthread.h**: Necessary header file required to run the project. Can be found in the `vcpkg` for VS-Code users. 
 
 ## Walk through the code
 
