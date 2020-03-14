@@ -8,9 +8,8 @@ to set up the data is to create a global array. Each sorting thread will work on
 array. A second global array of the same size as the unsorted integer array will also be
 established. The merging thread will then merge the two sublists into this second array. 
 
-Sorting used: Insertion Sort 
 
-## Look through the code
+## Walk through the code
 
 The following code contains two thread functions. 
 
