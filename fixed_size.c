@@ -133,6 +133,5 @@ int main()
     display(arr, 10); 
     
     return(0);
-
-
+    
 }
