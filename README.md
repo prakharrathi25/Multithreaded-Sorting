@@ -15,16 +15,15 @@ The following code contains two thread functions.
 
 * Sorting_thread(): This function uses an insertion sort method to sort the subarray that is passed to it. The function takes three arguments passed t it through a single data structure called parameters. 
 
-    1. start: starting index of the subarray
-    2. end: ending index of the subarray
-    3. order: 0 for ascending and 1 for descending. 
+    1. *start*: starting index of the subarray
+    2. *end*: ending index of the subarray
+    3. *order*: 0 for ascending and 1 for descending. 
 
 * Merging_thread(): This function merges the subarrays that have been provided to it. The function takes three arguments passed t it through a single data structure called parameters. 
 
-    1. start: starting index of the subarray
-    2. end: ending index of the subarray
-    3. order: 0 for ascending and 1 for descending.
-
+    1. *start*: starting index of the subarray
+    2. *end*: ending index of the subarray
+    3. *order*: 0 for ascending and 1 for descending.
 
 Three threads are created: two sorting_threads and one merging_thread. The threads are created using the pthread_create function(). 
 
