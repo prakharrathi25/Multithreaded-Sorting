@@ -18,11 +18,11 @@ typedef struct {
 } parameters;
 
 // Size of the array as a global variable to be accessed by all threads 
-#define SIZE 10
+int SIZE = 10;
 
 // Defining our global arrays for easier data access
-int arr[SIZE];
-int sorted_array[SIZE]; 
+int arr[10] = {10,9,8,7,6,5,4,3,2,1};
+int sorted_array[10]; 
 
 // Comparator Function 
 int cmpfunc(const void * a, const void * b) {
@@ -84,7 +84,7 @@ int main()
     for(int i = 0; i < SIZE; i++)
     {
         printf("\nEnter a number: "); 
-        scanf("%d", &arr[i]);
+        scanf("%d", arr[i]);
     }
 
     int e; // Check if size of the list is even
@@ -123,4 +123,6 @@ int main()
     display(arr, 10); 
     
     return(0);
+
+
 }
