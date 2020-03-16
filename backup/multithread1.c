@@ -17,12 +17,12 @@ typedef struct {
     int end;
 } parameters;
 
-// // Size of the array as a global variable to be accessed by all threads 
-// #define SIZE 10
+// Size of the array as a global variable to be accessed by all threads 
+#define SIZE 10
 
-// // Defining our global arrays for easier data access
-// int arr[SIZE];
-// int sorted_array[SIZE]; 
+// Defining our global arrays for easier data access
+int arr[SIZE];
+int sorted_array[SIZE]; 
 
 // Comparator Function 
 int cmpfunc(const void * a, const void * b) {
@@ -30,9 +30,9 @@ int cmpfunc(const void * a, const void * b) {
 }
 
 // Sorting Function which uses an in-built sorting function 
-int sort(int arr[], int n)
+int sort(int list[], int n)
 {
-    int key, j, i;
+    int key, j, i; 
     for(i = 1; i < n; i++)
     {
         key = arr[i]; 
@@ -76,13 +76,9 @@ int main()
 
     */ 
 
-    //Taking the input of array size from the user
-    int SIZE;
-    printf("Enter the size of the array: ");
-    scanf("%d", &SIZE);
-
-    int arr[SIZE];
-    int sorted_arr[SIZE];
+    // /* Taking the input of array size from the user */ 
+    // printf("\n Enter the size of the array: "); 
+    // scanf("%d", &SIZE); 
 
     /* Taking the array as input from the user */ 
     for(int i = 0; i < SIZE; i++)
@@ -119,12 +115,12 @@ int main()
 
    // Testing the sort function and 
     printf("\nArray before being sorted."); 
-    display(arr, SIZE); 
+    display(arr, 10); 
 
-    sort(arr, SIZE); 
+    sort(arr, 10); 
 
     printf("\nAfter sorting the list is:");
-    display(arr, SIZE); 
+    display(arr, 10); 
     
     return(0);
 }
