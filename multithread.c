@@ -17,6 +17,8 @@ typedef struct {
     int SIZE;
 } parameters;
 
+int ord;
+
 // Sorting Function which uses an in-built sorting function 
 void *sorting_thread(void *params)
 {
@@ -24,23 +26,46 @@ void *sorting_thread(void *params)
     parameters *p = (parameters *)params; 
     int start = p->start; 
     int end = p->end;
-    int *arr = p->arr; 
+    int *arr = p->arr;
 
     int key, j, i;
 
-    /* Insertion Sort */
-    for(i = start+1; i <= end; i++)
+    /* ASCENDING ORDER SORTING */ 
+    if(ord == 0)
     {
-        key = arr[i]; 
-        j = i - 1; 
-
-        while (j >= 0 && arr[j] > key)
+        /* Insertion Sort */
+        for(i = start+1; i <= end; i++)
         {
-            arr[j + 1] = arr[j]; 
-            j = j - 1; 
+            key = arr[i]; 
+            j = i - 1; 
+
+            while (j >= 0 && arr[j] > key)
+            {
+                arr[j + 1] = arr[j]; 
+                j = j - 1; 
+            }
+            arr[j + 1] = key; 
         }
-        arr[j + 1] = key; 
     }
+
+    /* DESCENDING ORDER SORTING */ 
+    else if(ord == 1)
+    {
+        /* Insertion Sort */
+        for(i = start+1; i <= end; i++)
+        {
+            key = arr[i]; 
+            j = i - 1; 
+
+            while (j >= 0 && arr[j] < key)
+            {
+                arr[j + 1] = arr[j]; 
+                j = j - 1; 
+            }
+            arr[j + 1] = key; 
+        }
+    }
+    
 
     pthread_exit(NULL);
 }
@@ -65,17 +90,35 @@ void *merging_thread(void *params)
     int SIZE = p->SIZE;
 
     /* Traverse through both the lists simultaenously and compare the numbers */ 
-    int l1 = 0, l2 = SIZE/2; 
-    for(int i = start; i <= end; i++)
+    if(ord == 0) //ASCENDING SORT
     {
-        if(arr[l1] <= arr[l2] && l1 < 5) // 5 can be replaced with SIZE/2
+        int l1 = 0, l2 = SIZE/2; 
+        for(int i = start; i <= end; i++)
         {
-            sorted_array[i] = arr[l1]; 
-            l1++; 
-        }else
+            if(arr[l1] <= arr[l2] && l1 < 5) // 5 can be replaced with SIZE/2
+            {
+                sorted_array[i] = arr[l1]; 
+                l1++; 
+            }else
+            {
+                sorted_array[i] = arr[l2]; 
+                l2++; 
+            }
+        }
+    }else if(ord == 1)
+    {
+        int l1 = 0, l2 = SIZE/2; 
+        for(int i = start; i <= end; i++)
         {
-            sorted_array[i] = arr[l2]; 
-            l2++; 
+            if(arr[l1] >= arr[l2] && l1 < 5) // 5 can be replaced with SIZE/2
+            {
+                sorted_array[i] = arr[l1]; 
+                l1++; 
+            }else
+            {
+                sorted_array[i] = arr[l2]; 
+                l2++; 
+            }
         }
     }
 
@@ -87,13 +130,14 @@ int main()
 {
     //User inputted size
     int SIZE;
-    printf("Enter the size of the array: ");
+    printf("\nEnter the size of the array: ");
     scanf("%d", &SIZE);
 
     int arr[SIZE];
     int sorted_array[SIZE];
 
     //User inputted values for the global array
+    printf("\n");
     for(int i = 0; i < SIZE; ++i)
     {
         printf("Enter the value at the %d index: ", i);
@@ -112,6 +156,10 @@ int main()
     3. Use the merge function to merge them back into the sorted array list. 
 
     */ 
+
+    printf("\nEnter 0 for ascending order.\n"
+    "Enter 1 for descending order: ");
+    scanf("%d", &ord);
 
     /* Creating the parameters for the first half for the first sorting thread */ 
     parameters *list1 = (parameters *) malloc(sizeof(parameters));
@@ -154,7 +202,8 @@ int main()
    // Testing the sort function and merging function 
     
     printf("\nAfter sorting the list is:");
-    display(arr, SIZE); 
+    display(arr, SIZE);
+    printf("\n");
     
     return(0);
     
