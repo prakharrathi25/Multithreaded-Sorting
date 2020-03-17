@@ -4,25 +4,29 @@ Author2: Jaskaran Gujral
 Roll Number: 1810110091
 */ 
 
+// Required header files
 #include<pthread.h> 
 #include<stdio.h> 
 #include<stdlib.h> 
 
-/* Structure for passing the data to threads */ 
+// Structure for passing the data to threads
 typedef struct {
-    int start;
-    int end;
-    int *arr;
-    int *sorted_array;
-    int SIZE;
+    int start;          // Specifies the starting index value
+    int end;            // Specifies the ending index value
+    int *arr;           // Points to the initial array
+    int *sorted_array;  // Points towards the array to be sorted
 } parameters;
 
+// Used to specify ascending/descending order
 int ord;
 
-// Sorting Function which uses an in-built sorting function 
+// Size of the array
+int SIZE;
+
+// Sorting Function 
 void *sorting_thread(void *params)
 {
-    /* Extracting data from the parameters */ 
+    // Extracting data from the parameters
     parameters *p = (parameters *)params; 
     int start = p->start; 
     int end = p->end;
@@ -30,10 +34,10 @@ void *sorting_thread(void *params)
 
     int key, j, i;
 
-    /* ASCENDING ORDER SORTING */ 
+    // ASCENDING ORDER SORTING
     if(ord == 0)
     {
-        /* Insertion Sort */
+        // Insertion Sort
         for(i = start+1; i <= end; i++)
         {
             key = arr[i]; 
@@ -48,7 +52,7 @@ void *sorting_thread(void *params)
         }
     }
 
-    /* DESCENDING ORDER SORTING */ 
+    // DESCENDING ORDER SORTING
     else if(ord == 1)
     {
         /* Insertion Sort */
@@ -87,9 +91,8 @@ void *merging_thread(void *params)
     int end = p->end;
     int *arr = p->arr;
     int *sorted_array = p->sorted_array;
-    int SIZE = p->SIZE;
 
-    /* Traverse through both the lists simultaenously and compare the numbers */ 
+    // Traverse through both the lists simultaenously and compare the numbers
     if(ord == 0) //ASCENDING SORT
     {
         int l1 = 0, l2 = SIZE/2; 
@@ -105,7 +108,7 @@ void *merging_thread(void *params)
                 l2++; 
             }
         }
-    }else if(ord == 1)
+    }else if(ord == 1) // DESCENDING SORT
     {
         int l1 = 0, l2 = SIZE/2; 
         for(int i = start; i <= end; i++)
@@ -128,15 +131,14 @@ void *merging_thread(void *params)
 // Main Function 
 int main()
 {
-    //User inputted size
-    int SIZE;
+    // User inputs the size of the array
     printf("\nEnter the size of the array: ");
     scanf("%d", &SIZE);
 
-    int arr[SIZE];
-    int sorted_array[SIZE];
+    int arr[SIZE]; // Initial array
+    int sorted_array[SIZE]; // Array in which sorted values will be stored
 
-    //User inputted values for the global array
+    // User inputs the values for the initial array
     printf("\n");
     for(int i = 0; i < SIZE; ++i)
     {
@@ -148,59 +150,46 @@ int main()
     printf("\nArray before being sorted."); 
     display(arr, SIZE); 
 
-    /* Things to do 
-
-    1. Take an input from user for array size and array input. 
-    2. Split the array into two halfs and use pthread_function to create to threads to sort them using the sort() function 
-        and the parameters for start and end 
-    3. Use the merge function to merge them back into the sorted array list. 
-
-    */ 
-
     printf("\nEnter 0 for ascending order.\n"
     "Enter 1 for descending order: ");
     scanf("%d", &ord);
 
-    /* Creating the parameters for the first half for the first sorting thread */ 
+    // Creating the parameters for the first half for the first sorting thread
     parameters *list1 = (parameters *) malloc(sizeof(parameters));
     list1->start = 0;
     list1->end = SIZE/2;
     list1->arr = arr;
     list1->sorted_array = sorted_array;
-    list1->SIZE = SIZE;
 
-    /* Creating the parameters for the second half for the second sorting thread */ 
+    // Creating the parameters for the second half for the second sorting thread
     parameters *list2 = (parameters *) malloc(sizeof(parameters));
     list2->start = SIZE/2;
     list2->end = SIZE - 1;
     list2->arr = arr;
     list2->sorted_array = sorted_array;
-    list2->SIZE = SIZE;
 
-    /* Create parameters for the merging thread */ 
+    // Creating the parameters for the merging thread
     parameters *merge_arr = (parameters *) malloc(sizeof(parameters));
     merge_arr->start = list1->start;
     merge_arr->end = list2->end;
     merge_arr->arr = arr;
     merge_arr->sorted_array = sorted_array;
-    merge_arr->SIZE = SIZE;
 
-    /* Now create the thread passing it data as a parameter */
+    // Now create the thread passing the data as a parameter
     pthread_t worker_threads[3]; 
 
-    /* create the two sorting threads and join them */ 
+    // Create the two sorting threads and join them
     pthread_create(&worker_threads[0], NULL, sorting_thread, list1); 
     pthread_create(&worker_threads[1], NULL, sorting_thread, list2); 
     
     pthread_join(worker_threads[0], NULL); 
     pthread_join(worker_threads[1], NULL);
     
-    /* Create the merging thread which will wait for the first two to end and then join it */ 
+    // Create the merging thread which will wait for the first two to end and then join it
     pthread_create(&worker_threads[2], NULL, merging_thread, merge_arr); 
     pthread_join(worker_threads[2], NULL); 
 
-   // Testing the sort function and merging function 
-    
+   // Display the sorted array
     printf("\nAfter sorting the list is:");
     display(arr, SIZE);
     printf("\n");
