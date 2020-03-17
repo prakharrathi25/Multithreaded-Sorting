@@ -1,5 +1,5 @@
 /* Author1: Prakhar Rathi 
-Roll Number: 1810110169 
+Roll Number: 1810110169
 Author2: Jaskaran Gujral 
 Roll Number: 1810110091
 */ 
@@ -16,6 +16,7 @@ typedef struct {
 
 // Size of the array as a global variable to be accessed by all threads 
 int SIZE = 10; 
+int ord = 0; 
 
 // Defining our global arrays for easier data access
 int arr[10] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1}; 
@@ -31,19 +32,42 @@ void *sorting_thread(void *params)
 
     int key, j, i;
 
-    /* Insertion Sort */
-    for(i = start+1; i <= end; i++)
+    /* ASCENDING ORDER SORTING */ 
+    if(ord == 0)
     {
-        key = arr[i]; 
-        j = i - 1; 
-
-        while (j >= 0 && arr[j] > key)
+        /* Insertion Sort */
+        for(i = start+1; i <= end; i++)
         {
-            arr[j + 1] = arr[j]; 
-            j = j - 1; 
+            key = arr[i]; 
+            j = i - 1; 
+
+            while (j >= 0 && arr[j] > key)
+            {
+                arr[j + 1] = arr[j]; 
+                j = j - 1; 
+            }
+            arr[j + 1] = key; 
         }
-        arr[j + 1] = key; 
     }
+
+    /* DESCENDING ORDER SORTING */ 
+    else if(ord == 1)
+    {
+        /* Insertion Sort */
+        for(i = start+1; i <= end; i++)
+        {
+            key = arr[i]; 
+            j = i - 1; 
+
+            while (j >= 0 && arr[j] < key)
+            {
+                arr[j + 1] = arr[j]; 
+                j = j - 1; 
+            }
+            arr[j + 1] = key; 
+        }
+    }
+    
 
     pthread_exit(NULL);
 }
@@ -65,17 +89,35 @@ void *merging_thread(void *params)
     int end = p->end; 
 
     /* Traverse through both the lists simultaenously and compare the numbers */ 
-    int l1 = 0, l2 = SIZE/2; 
-    for(int i = start; i <= end; i++)
+    if(ord == 0) //ASCENDING SORT
     {
-        if(arr[l1] <= arr[l2] && l1 < 5) // 5 can be replaced with SIZE/2
+        int l1 = 0, l2 = SIZE/2; 
+        for(int i = start; i <= end; i++)
         {
-            sorted_array[i] = arr[l1]; 
-            l1++; 
-        }else
+            if(arr[l1] <= arr[l2] && l1 < 5) // 5 can be replaced with SIZE/2
+            {
+                sorted_array[i] = arr[l1]; 
+                l1++; 
+            }else
+            {
+                sorted_array[i] = arr[l2]; 
+                l2++; 
+            }
+        }
+    }else if(ord == 1)
+    {
+        int l1 = 0, l2 = SIZE/2; 
+        for(int i = start; i <= end; i++)
         {
-            sorted_array[i] = arr[l2]; 
-            l2++; 
+            if(arr[l1] >= arr[l2] && l1 < 5) // 5 can be replaced with SIZE/2
+            {
+                sorted_array[i] = arr[l1]; 
+                l1++; 
+            }else
+            {
+                sorted_array[i] = arr[l2]; 
+                l2++; 
+            }
         }
     }
 
@@ -89,19 +131,14 @@ int main()
     printf("\nArray before being sorted."); 
     display(arr, 10); 
 
-    /* Things to do 
-
-    1. Take an input from user for array size and array input. 
-    2. Split the array into two halfs and use pthread_function to create to threads to sort them using the sort() function 
-        and the parameters for start and end 
-    3. Use the merge function to merge them back into the sorted array list. 
-
-    */ 
+    // Input the order of sorting 
+    printf("\nEnter the order of sorting- 0. Ascending 1. Descending: "); 
+    scanf("%d", &ord); 
 
     /* Creating the parameters for the first half for the first sorting thread */ 
     parameters *list1 = (parameters *) malloc(sizeof(parameters));
     list1->start = 0;
-    list1->end = 5;
+    list1->end = 5; 
 
     /* Creating the parameters for the second half for the second sorting thread */ 
     parameters *list2 = (parameters *) malloc(sizeof(parameters));
