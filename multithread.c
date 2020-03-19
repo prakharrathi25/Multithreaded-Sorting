@@ -128,6 +128,28 @@ void *merging_thread(void *params)
     pthread_exit(NULL); 
 }
 
+void getOrder()
+{
+    while(1)
+    {
+        int temp;
+
+        printf("\nEnter 0 for Ascending order.\n"
+        "Enter 1 for Descending order. ");
+
+        scanf("%d", &temp);
+
+        if(temp == 0 || temp == 1)
+        {
+            ord = temp;
+            break;
+        }
+
+        else
+            printf("\nInvalid input. Try again.\n");
+    }
+}
+
 // Main Function 
 int main()
 {
@@ -150,9 +172,8 @@ int main()
     printf("\nArray before being sorted."); 
     display(arr, SIZE); 
 
-    printf("\nEnter 0 for ascending order.\n"
-    "Enter 1 for descending order: ");
-    scanf("%d", &ord);
+    // Specifying the order of the sort
+    getOrder();
 
     // Creating the parameters for the first half for the first sorting thread
     parameters *list1 = (parameters *) malloc(sizeof(parameters));
